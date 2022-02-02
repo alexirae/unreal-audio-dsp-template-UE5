@@ -1,0 +1,9 @@
+UEAudioDSPTemplate.sln
+.vs/
+Binaries/
+DerivedDataCache/
+Intermediate/
+Plugins/AudioDSPTemplate/Binaries/
+Plugins/AudioDSPTemplate/Intermediate/
+Saved/
+Script/

@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "AudioDSPTemplate",
+	"Description": "Template plugin to demonstrate the implementation of an audio realtime effect in its different 3 flavors (SourceEffect, SubmixEffect, Metasound Node [only UE5])",
+	"Category": "Audio",
+	"CreatedBy": "Alex Perez San Elias",
+	"CreatedByURL": "https://github.com/alexirae",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "AudioDSPTemplate",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "Metasound",
+			"Enabled": true
+		}
+	]
+}
