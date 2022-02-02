@@ -4,7 +4,7 @@
 namespace DSPProcessing
 {
     FVolume::FVolume()
-		: Amplitude(0.0f)
+	    : Amplitude(0.0f)
     {
         
     }
