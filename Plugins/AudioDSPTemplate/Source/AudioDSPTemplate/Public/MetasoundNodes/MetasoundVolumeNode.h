@@ -1,3 +1,4 @@
+#include "DSPProcessing/Volume.h"
 #include "MetasoundEnumRegistrationMacro.h"
 
 
