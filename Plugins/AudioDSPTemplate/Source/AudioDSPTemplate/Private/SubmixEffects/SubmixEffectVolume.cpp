@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------------
 void FSubmixEffectVolume::Init(const FSoundEffectSubmixInitData& InitData)
 {
-    
+    VolumeDSPProcessor.Init();
 }
 
 void FSubmixEffectVolume::OnPresetChanged()
@@ -18,8 +18,6 @@ void FSubmixEffectVolume::OnPresetChanged()
 
 void FSubmixEffectVolume::OnProcessAudio(const FSoundEffectSubmixInputData& InData, FSoundEffectSubmixOutputData& OutData)
 {
-    //TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("FSubmixEffectVolume::OnProcessAudio"))
-
     const float* InAudioBuffer = InData.AudioBuffer->GetData();
     float* OutAudioBuffer      = OutData.AudioBuffer->GetData();
 

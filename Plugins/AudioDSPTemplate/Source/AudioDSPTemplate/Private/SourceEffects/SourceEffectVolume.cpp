@@ -8,6 +8,8 @@ void FSourceEffectVolume::Init(const FSoundEffectSourceInitData& InitData)
 {
     bIsActive   = true;
     NumChannels = InitData.NumSourceChannels;
+
+    VolumeDSPProcessor.Init();
 }
 
 void FSourceEffectVolume::OnPresetChanged()
@@ -19,8 +21,6 @@ void FSourceEffectVolume::OnPresetChanged()
 
 void FSourceEffectVolume::ProcessAudio(const FSoundEffectSourceInputData& InData, float* OutAudioBufferData)
 {
-    //TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("FSourceEffectVolume::ProcessAudio"))
-
     const float* InAudioBuffer = InData.InputSourceEffectBufferPtr;
     float* OutAudioBuffer      = OutAudioBufferData;
 

@@ -1,5 +1,5 @@
 #include "DSPProcessing/Volume.h"
-#include "DSP/Dsp.h"
+
 
 namespace DSPProcessing
 {
@@ -26,6 +26,7 @@ namespace DSPProcessing
 
     void FVolume::ProcessAudioBuffer(const float* InBuffer, float* OutBuffer, int32 NumFrames)
     {
+        // Uncomment to profile the cost of this DSP processing in Unreal Insights
         //TRACE_CPUPROFILER_EVENT_SCOPE(TEXT("FVolume::ProcessAudioBuffer"))
 
         // Naive version (and without parameter smoothing)

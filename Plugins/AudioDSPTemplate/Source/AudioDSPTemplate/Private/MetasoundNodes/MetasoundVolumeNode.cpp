@@ -14,7 +14,7 @@ FVolumeOperator::FVolumeOperator(const Metasound::FOperatorSettings& InSettings,
     , AudioOutput(Metasound::FAudioBufferWriteRef::CreateNew(InSettings))
     , Amplitude(InAmplitude)
 {
-    
+    VolumeDSPProcessor.Init();
 }
 
 Metasound::FDataReferenceCollection FVolumeOperator::GetInputs() const
