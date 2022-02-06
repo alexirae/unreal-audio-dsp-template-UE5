@@ -12,7 +12,7 @@ namespace DSPProcessing
 
         void Init();
         void SetAmplitude(const float InAmount);
-        void ProcessAudioBuffer(const float* InBuffer, float* OutBuffer, int32 NumFrames);
+        void ProcessAudioBuffer(const float* InBuffer, float* OutBuffer, int32 NumSamples);
 
     private:
         float Amplitude;

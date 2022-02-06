@@ -41,11 +41,11 @@ void FVolumeOperator::Execute()
     const float* InputAudio = AudioInput->GetData();
     float* OutputAudio      = AudioOutput->GetData();
 
-    const int32 NumFrames = AudioInput->Num();
+    const int32 NumSamples = AudioInput->Num();
 
     VolumeDSPProcessor.SetAmplitude(*Amplitude);
 
-    VolumeDSPProcessor.ProcessAudioBuffer(InputAudio, OutputAudio, NumFrames);
+    VolumeDSPProcessor.ProcessAudioBuffer(InputAudio, OutputAudio, NumSamples);
 }
 
 const Metasound::FVertexInterface& FVolumeOperator::GetVertexInterface()
