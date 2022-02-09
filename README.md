@@ -1,4 +1,7 @@
 # Unrea Audio DSP Template (UE5)
+
+## WARNING: BEWARE THAT THE METASOUND CODE IS BASED ON UE5 EARLY ACCESS AND THE API/FUNCTIONALITY WILL CHANGE ONCE UE5 IS FINALLY RELEASED. THIS PROJECT WILL BE UPDATED ACCORDINGLY WHEN THAT HAPPENS.
+
 ![](https://user-images.githubusercontent.com/7047334/152259689-cd7fd6d8-6b54-4dc9-b444-41ddd1f1fcfe.png)
 
 A simple Unreal 5 plugin with demo content that shows how audio DSP processing can be done implementing a **Metasound Node**, **SourceEffect** and **SubmixEffect**.
