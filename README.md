@@ -12,14 +12,13 @@ The most relevant parts of the code are located in:
 - *Plugins/AudioDSPTemplate/Source/AudioDSPTemplate/Private*
 - *Plugins/AudioDSPTemplate/Source/AudioDSPTemplate/Public*
 
-### Build steps:
+## Build steps
 - **Clone** repository
 - Right click ***UEAudioDSPTemplate.uproject*** > *Generate Visual Studio projects files*
 - Open ***UEAudioDSPTemplate.sln***
 - **Build** Solution
 
-
-### Testing the plugin:
+## Testing the plugin
 - Open ***UEAudioDSPTemplate.uproject*** (or start it from Visual Studio)
 - **DemoMap** will be automatically loaded
 - **Metasound:**
@@ -31,8 +30,13 @@ The most relevant parts of the code are located in:
     - If you want to test the Submix effect simply connect the Update port from Timeline to the Set Settings node of the SubmixEffect
     - Click ***Play*** button to start the Level
 
+
+## Note for Metasounds:
+- If you plan to create new Metasound nodes in your own project don't forget to call `FMetasoundFrontendRegistryContainer::Get()->RegisterPendingNodes();` in the `StartupModule()` method, check `AudioDSPTemplate.cpp` for more details.
+
 <br/>
 
+## Showcase
 **Metasound:**
 <br/>
 ![](https://user-images.githubusercontent.com/7047334/156052840-dbb9a455-a7ed-47b4-a768-db8a23052ba0.gif)
