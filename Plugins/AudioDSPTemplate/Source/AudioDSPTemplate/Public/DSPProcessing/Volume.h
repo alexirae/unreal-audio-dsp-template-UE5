@@ -4,7 +4,7 @@
 
 namespace DSPProcessing
 {
-    class AUDIODSPTEMPLATE_API FVolume
+    class FVolume
     {
     public:
         FVolume();
