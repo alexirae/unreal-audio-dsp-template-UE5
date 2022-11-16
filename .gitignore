@@ -7,3 +7,6 @@ Plugins/AudioDSPTemplate/Binaries/
 Plugins/AudioDSPTemplate/Intermediate/
 Saved/
 Script/
+.vsconfig
+Config/DefaultInput.ini
+Config/HoloLens/HoloLensEngine.ini
