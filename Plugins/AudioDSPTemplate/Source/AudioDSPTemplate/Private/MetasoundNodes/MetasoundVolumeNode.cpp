@@ -1,121 +1,120 @@
 #include "MetasoundNodes/MetasoundVolumeNode.h"
 
-#define LOCTEXT_NAMESPACE "MetasoundStandardNodes_VolumeNode"
+#define LOCTEXT_NAMESPACE "MetasoundNodeTemplate_VolumeNode"
 
 namespace Metasound
 {
-    //------------------------------------------------------------------------------------
-    // FVolumeOperator
-    //------------------------------------------------------------------------------------
-    FVolumeOperator::FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude)
-        : AudioInput(InAudioInput)
-        , AudioOutput(FAudioBufferWriteRef::CreateNew(InSettings))
-        , Amplitude(InAmplitude)
-    {
-        VolumeDSPProcessor.Init();
-    }
+	namespace VolumeNode
+	{
+		// Input params
+		METASOUND_PARAM(InParamNameAudioInput, "In",        "Audio input.")
+		METASOUND_PARAM(InParamNameAmplitude,  "Amplitude", "The amount of amplitude to apply to the input signal.")
+		
+		// Output params
+		METASOUND_PARAM(OutParamNameAudio, "Out", "Audio output.")
+	}
 
-    FDataReferenceCollection FVolumeOperator::GetInputs() const
-    {
-        using namespace VolumeNode;
+	//------------------------------------------------------------------------------------
+	// FVolumeOperator
+	//------------------------------------------------------------------------------------
+	FVolumeOperator::FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude)
+		: AudioInput(InAudioInput)
+		, AudioOutput(FAudioBufferWriteRef::CreateNew(InSettings))
+		, Amplitude(InAmplitude)
+	{
+		
+	}
 
-        FDataReferenceCollection InputDataReferences;
+	const FNodeClassMetadata& FVolumeOperator::GetNodeInfo()
+	{
+		auto InitNodeInfo = []() -> FNodeClassMetadata
+		{
+			FNodeClassMetadata Info;
 
-        InputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), AudioInput);
-        InputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(InParamNameAmplitude), Amplitude);
+			Info.ClassName         = { TEXT("UE"), TEXT("Volume"), TEXT("Audio") };
+			Info.MajorVersion      = 1;
+			Info.MinorVersion      = 0;
+			Info.DisplayName       = LOCTEXT("Metasound_VolumeDisplayName", "Volume");
+			Info.Description       = LOCTEXT("Metasound_VolumeNodeDescription", "Applies volume to the audio input.");
+			Info.Author            = PluginAuthor;
+			Info.PromptIfMissing   = PluginNodeMissingPrompt;
+			Info.DefaultInterface  = GetVertexInterface();
+			Info.CategoryHierarchy = { LOCTEXT("Metasound_VolumeNodeCategory", "Utils") };
 
-        return InputDataReferences;
-    }
+			return Info;
+		};
 
-    FDataReferenceCollection FVolumeOperator::GetOutputs() const
-    {
-        using namespace VolumeNode;
+		static const FNodeClassMetadata Info = InitNodeInfo();
 
-        FDataReferenceCollection OutputDataReferences;
+		return Info;
+	}
 
-        OutputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(OutParamNameAudio), AudioOutput);
+	FDataReferenceCollection FVolumeOperator::GetInputs() const
+	{
+		using namespace VolumeNode;
 
-        return OutputDataReferences;
-    }
+		FDataReferenceCollection InputDataReferences;
 
-    void FVolumeOperator::Execute()
-    {
-        const float* InputAudio = AudioInput->GetData();
-        float* OutputAudio      = AudioOutput->GetData();
+		InputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), AudioInput);
+		InputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(InParamNameAmplitude), Amplitude);
 
-        const int32 NumSamples = AudioInput->Num();
+		return InputDataReferences;
+	}
 
-        VolumeDSPProcessor.SetAmplitude(*Amplitude);
+	FDataReferenceCollection FVolumeOperator::GetOutputs() const
+	{
+		using namespace VolumeNode;
 
-        VolumeDSPProcessor.ProcessAudioBuffer(InputAudio, OutputAudio, NumSamples);
-    }
+		FDataReferenceCollection OutputDataReferences;
 
-    const FVertexInterface& FVolumeOperator::GetVertexInterface()
-    {
-        using namespace VolumeNode;
+		OutputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(OutParamNameAudio), AudioOutput);
 
-        static const FVertexInterface Interface(
-            FInputVertexInterface(
-                TInputDataVertex<FAudioBuffer>(METASOUND_GET_PARAM_NAME_AND_METADATA(InParamNameAudioInput)),
-                TInputDataVertex<float>(METASOUND_GET_PARAM_NAME_AND_METADATA(InParamNameAmplitude), 1.0f)
-            ),
+		return OutputDataReferences;
+	}
 
-            FOutputVertexInterface(
-                TOutputDataVertex<FAudioBuffer>(METASOUND_GET_PARAM_NAME_AND_METADATA(OutParamNameAudio))
-            )
-        );
+	const FVertexInterface& FVolumeOperator::GetVertexInterface()
+	{
+		using namespace VolumeNode;
 
-        return Interface;
-    }
+		static const FVertexInterface Interface(
+			FInputVertexInterface(
+				TInputDataVertex<FAudioBuffer>(METASOUND_GET_PARAM_NAME_AND_METADATA(InParamNameAudioInput)),
+				TInputDataVertex<float>(METASOUND_GET_PARAM_NAME_AND_METADATA(InParamNameAmplitude), 1.0f)
+			),
 
-    const FNodeClassMetadata& FVolumeOperator::GetNodeInfo()
-    {
-        auto InitNodeInfo = []() -> FNodeClassMetadata
-        {
-            FNodeClassMetadata Info;
+			FOutputVertexInterface(
+				TOutputDataVertex<FAudioBuffer>(METASOUND_GET_PARAM_NAME_AND_METADATA(OutParamNameAudio))
+			)
+		);
 
-            Info.ClassName        = { TEXT("UE"), TEXT("Volume"), TEXT("Audio") };
-            Info.MajorVersion     = 1;
-            Info.MinorVersion     = 0;
-            Info.DisplayName      = LOCTEXT("Metasound_VolumeDisplayName", "Volume");
-            Info.Description      = LOCTEXT("Metasound_VolumeNodeDescription", "Applies volume to the audio input.");
-            Info.Author           = PluginAuthor;
-            Info.PromptIfMissing  = PluginNodeMissingPrompt;
-            Info.DefaultInterface = GetVertexInterface();
-            Info.CategoryHierarchy = { LOCTEXT("Metasound_VolumeNodeCategory", "Utils") };
+		return Interface;
+	}
 
-            return Info;
-        };
+	TUniquePtr<IOperator> FVolumeOperator::CreateOperator(const FCreateOperatorParams& InParams, FBuildErrorArray& OutErrors)
+	{
+		using namespace VolumeNode;
 
-        static const FNodeClassMetadata Info = InitNodeInfo();
+		const FDataReferenceCollection& InputCollection = InParams.InputDataReferences;
+		const FInputVertexInterface& InputInterface     = GetVertexInterface().GetInputInterface();
 
-        return Info;
-    }
+		FAudioBufferReadRef AudioIn = InputCollection.GetDataReadReferenceOrConstruct<FAudioBuffer>(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), InParams.OperatorSettings);
+		FFloatReadRef InAmplitude   = InputCollection.GetDataReadReferenceOrConstructWithVertexDefault<float>(InputInterface, METASOUND_GET_PARAM_NAME(InParamNameAmplitude), InParams.OperatorSettings);
 
-    TUniquePtr<IOperator> FVolumeOperator::CreateOperator(const FCreateOperatorParams& InParams, FBuildErrorArray& OutErrors)
-    {
-        using namespace VolumeNode;
+		return MakeUnique<FVolumeOperator>(InParams.OperatorSettings, AudioIn, InAmplitude);
+	}
 
-        const FDataReferenceCollection& InputCollection = InParams.InputDataReferences;
-        const FInputVertexInterface& InputInterface     = GetVertexInterface().GetInputInterface();
+	void FVolumeOperator::Execute()
+	{
+		const float* InputAudio = AudioInput->GetData();
+		float* OutputAudio      = AudioOutput->GetData();
 
-        FAudioBufferReadRef AudioIn = InputCollection.GetDataReadReferenceOrConstruct<FAudioBuffer>(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), InParams.OperatorSettings);
-        FFloatReadRef InAmplitude   = InputCollection.GetDataReadReferenceOrConstructWithVertexDefault<float>(InputInterface, METASOUND_GET_PARAM_NAME(InParamNameAmplitude), InParams.OperatorSettings);
+		const int32 NumSamples = AudioInput->Num();
 
-        return MakeUnique<FVolumeOperator>(InParams.OperatorSettings, AudioIn, InAmplitude);
-    }
+		VolumeDSPProcessor.SetAmplitude(*Amplitude);
+		VolumeDSPProcessor.ProcessAudioBuffer(InputAudio, OutputAudio, NumSamples);
+	}
 
-
-    //------------------------------------------------------------------------------------
-    // FVolumeNode
-    //------------------------------------------------------------------------------------
-    FVolumeNode::FVolumeNode(const FNodeInitData& InitData)
-        : FNodeFacade(InitData.InstanceName, InitData.InstanceID, TFacadeOperatorClass<FVolumeOperator>())
-    {
-    
-    }
-
-    METASOUND_REGISTER_NODE(FVolumeNode)
+	METASOUND_REGISTER_NODE(FVolumeNode)
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -4,51 +4,43 @@
 
 namespace Metasound
 {
-#define LOCTEXT_NAMESPACE "MetasoundStandardNodes_VolumeNode"
+	//------------------------------------------------------------------------------------
+	// FVolumeOperator
+	//------------------------------------------------------------------------------------
+	class FVolumeOperator : public TExecutableOperator<FVolumeOperator>
+	{
+	public:
+		static const FNodeClassMetadata& GetNodeInfo();
+		static const FVertexInterface& GetVertexInterface();
+		static TUniquePtr<IOperator> CreateOperator(const FCreateOperatorParams& InParams, FBuildErrorArray& OutErrors);
 
-    namespace VolumeNode
-    {
-        METASOUND_PARAM(InParamNameAudioInput, "In",        "Audio input.")
-        METASOUND_PARAM(InParamNameAmplitude,  "Amplitude", "The amount of amplitude to apply to the input signal.")
-        METASOUND_PARAM(OutParamNameAudio,     "Out",       "Audio output.")
-    }
+		FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude);
 
-#undef LOCTEXT_NAMESPACE
+		virtual FDataReferenceCollection GetInputs()  const override;
+		virtual FDataReferenceCollection GetOutputs() const override;
 
+		void Execute();
 
-    //------------------------------------------------------------------------------------
-    // FVolumeOperator
-    //------------------------------------------------------------------------------------
-    class FVolumeOperator : public TExecutableOperator<FVolumeOperator>
-    {
-    public:
-        static const FNodeClassMetadata& GetNodeInfo();
-        static const FVertexInterface& GetVertexInterface();
-        static TUniquePtr<IOperator> CreateOperator(const FCreateOperatorParams& InParams, FBuildErrorArray& OutErrors);
+	private:
+		FAudioBufferReadRef	 AudioInput;
+		FAudioBufferWriteRef AudioOutput;
 
-        FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude);
+		DSPProcessing::FVolume VolumeDSPProcessor;
 
-        virtual FDataReferenceCollection GetInputs()  const override;
-        virtual FDataReferenceCollection GetOutputs() const override;
+		FFloatReadRef Amplitude;
+	};
 
-        void Execute();
+	//------------------------------------------------------------------------------------
+	// FVolumeNode
+	//------------------------------------------------------------------------------------
+	class FVolumeNode : public FNodeFacade
+	{
+	public:
+		// Constructor used by the Metasound Frontend.
+		FVolumeNode(const FNodeInitData& InitData)
+			: FNodeFacade(InitData.InstanceName, InitData.InstanceID, TFacadeOperatorClass<FVolumeOperator>())
+		{
 
-    private:
-        FAudioBufferReadRef  AudioInput;
-        FAudioBufferWriteRef AudioOutput;
-
-        DSPProcessing::FVolume VolumeDSPProcessor;
-
-        FFloatReadRef Amplitude;
-    };
-
-    //------------------------------------------------------------------------------------
-    // FVolumeNode
-    //------------------------------------------------------------------------------------
-    class FVolumeNode : public FNodeFacade
-    {
-    public:
-        // Constructor used by the Metasound Frontend.
-        FVolumeNode(const FNodeInitData& InitData);
-    };
+		}
+	};
 }

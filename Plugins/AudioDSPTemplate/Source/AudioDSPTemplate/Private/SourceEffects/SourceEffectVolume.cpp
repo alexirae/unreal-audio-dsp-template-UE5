@@ -6,27 +6,27 @@
 //------------------------------------------------------------------------------------
 void FSourceEffectVolume::Init(const FSoundEffectSourceInitData& InitData)
 {
-    bIsActive   = true;
-    NumChannels = InitData.NumSourceChannels;
+	bIsActive   = true;
+	NumChannels = InitData.NumSourceChannels;
 
-    VolumeDSPProcessor.Init();
+	VolumeDSPProcessor.Init();
 }
 
 void FSourceEffectVolume::OnPresetChanged()
 {
-    GET_EFFECT_SETTINGS(SourceEffectVolume);
+	GET_EFFECT_SETTINGS(SourceEffectVolume);
 
-    VolumeDSPProcessor.SetAmplitude(Settings.Amplitude);
+	VolumeDSPProcessor.SetAmplitude(Settings.Amplitude);
 }
 
 void FSourceEffectVolume::ProcessAudio(const FSoundEffectSourceInputData& InData, float* OutAudioBufferData)
 {
-    const float* InAudioBuffer = InData.InputSourceEffectBufferPtr;
-    float* OutAudioBuffer      = OutAudioBufferData;
+	const float* InAudioBuffer = InData.InputSourceEffectBufferPtr;
+	float* OutAudioBuffer      = OutAudioBufferData;
 
-    const int32 NumSamples = InData.NumSamples;
+	const int32 NumSamples = InData.NumSamples;
 
-    VolumeDSPProcessor.ProcessAudioBuffer(InAudioBuffer, OutAudioBuffer, NumSamples);
+	VolumeDSPProcessor.ProcessAudioBuffer(InAudioBuffer, OutAudioBuffer, NumSamples);
 }
 
 
@@ -35,5 +35,5 @@ void FSourceEffectVolume::ProcessAudio(const FSoundEffectSourceInputData& InData
 //------------------------------------------------------------------------------------
 void USourceEffectVolumePreset::SetSettings(const FSourceEffectVolumeSettings& InSettings)
 {
-    UpdateSettings(InSettings);
+	UpdateSettings(InSettings);
 }

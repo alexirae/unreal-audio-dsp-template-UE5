@@ -6,25 +6,25 @@
 //------------------------------------------------------------------------------------
 void FSubmixEffectVolume::Init(const FSoundEffectSubmixInitData& InitData)
 {
-    VolumeDSPProcessor.Init();
+	VolumeDSPProcessor.Init();
 }
 
 void FSubmixEffectVolume::OnPresetChanged()
 {
-    GET_EFFECT_SETTINGS(SubmixEffectVolume);
+	GET_EFFECT_SETTINGS(SubmixEffectVolume);
 
-    VolumeDSPProcessor.SetAmplitude(Settings.Amplitude);
+	VolumeDSPProcessor.SetAmplitude(Settings.Amplitude);
 }
 
 void FSubmixEffectVolume::OnProcessAudio(const FSoundEffectSubmixInputData& InData, FSoundEffectSubmixOutputData& OutData)
 {
-    const float* InAudioBuffer = InData.AudioBuffer->GetData();
-    float* OutAudioBuffer      = OutData.AudioBuffer->GetData();
+	const float* InAudioBuffer = InData.AudioBuffer->GetData();
+	float* OutAudioBuffer      = OutData.AudioBuffer->GetData();
 
-    const int32 NumChannels    = InData.NumChannels;
-    const int32 NumSamples     = InData.NumFrames * NumChannels;
+	const int32 NumChannels = InData.NumChannels;
+	const int32 NumSamples  = InData.NumFrames * NumChannels;
 
-    VolumeDSPProcessor.ProcessAudioBuffer(InAudioBuffer, OutAudioBuffer, NumSamples);
+	VolumeDSPProcessor.ProcessAudioBuffer(InAudioBuffer, OutAudioBuffer, NumSamples);
 }
 
 
@@ -33,5 +33,5 @@ void FSubmixEffectVolume::OnProcessAudio(const FSoundEffectSubmixInputData& InDa
 //------------------------------------------------------------------------------------
 void USubmixEffectVolumePreset::SetSettings(const FSubmixEffectVolumeSettings& InSettings)
 {
-    UpdateSettings(InSettings);
+	UpdateSettings(InSettings);
 }
