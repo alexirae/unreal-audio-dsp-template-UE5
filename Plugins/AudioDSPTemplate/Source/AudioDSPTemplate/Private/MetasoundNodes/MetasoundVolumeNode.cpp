@@ -49,27 +49,19 @@ namespace Metasound
 		return Info;
 	}
 
-	FDataReferenceCollection FVolumeOperator::GetInputs() const
+	void FVolumeOperator::BindInputs(FInputVertexInterfaceData& InOutVertexData)
 	{
 		using namespace VolumeNode;
 
-		FDataReferenceCollection InputDataReferences;
-
-		InputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), AudioInput);
-		InputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(InParamNameAmplitude), Amplitude);
-
-		return InputDataReferences;
+		InOutVertexData.BindReadVertex(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), AudioInput);
+		InOutVertexData.BindReadVertex(METASOUND_GET_PARAM_NAME(InParamNameAmplitude), Amplitude);
 	}
 
-	FDataReferenceCollection FVolumeOperator::GetOutputs() const
+	void FVolumeOperator::BindOutputs(FOutputVertexInterfaceData& InOutVertexData)
 	{
 		using namespace VolumeNode;
 
-		FDataReferenceCollection OutputDataReferences;
-
-		OutputDataReferences.AddDataReadReference(METASOUND_GET_PARAM_NAME(OutParamNameAudio), AudioOutput);
-
-		return OutputDataReferences;
+		InOutVertexData.BindReadVertex(METASOUND_GET_PARAM_NAME(OutParamNameAudio), AudioOutput);
 	}
 
 	const FVertexInterface& FVolumeOperator::GetVertexInterface()

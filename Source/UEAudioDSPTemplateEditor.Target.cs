@@ -7,7 +7,7 @@ public class UEAudioDSPTemplateEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
 		IncludeOrderVersion	 = EngineIncludeOrderVersion.Latest;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
+		DefaultBuildSettings = BuildSettingsVersion.V4;
 		ExtraModuleNames.AddRange( new string[] { "UEAudioDSPTemplate" } );
 	}
 }

@@ -16,8 +16,8 @@ namespace Metasound
 
 		FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude);
 
-		virtual FDataReferenceCollection GetInputs()  const override;
-		virtual FDataReferenceCollection GetOutputs() const override;
+		virtual void BindInputs(FInputVertexInterfaceData& InOutVertexData) override;
+		virtual void BindOutputs(FOutputVertexInterfaceData& InOutVertexData) override;
 
 		void Execute();
 
