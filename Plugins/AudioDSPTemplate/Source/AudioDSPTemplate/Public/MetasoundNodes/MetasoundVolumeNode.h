@@ -1,44 +1,46 @@
+#pragma once
+
 #include "DSPProcessing/Volume.h"
 #include "MetasoundEnumRegistrationMacro.h"
 #include "MetasoundParamHelper.h"
 
-namespace Metasound
+namespace DSPTemplate
 {
 	//------------------------------------------------------------------------------------
 	// FVolumeOperator
 	//------------------------------------------------------------------------------------
-	class FVolumeOperator : public TExecutableOperator<FVolumeOperator>
+	class FVolumeOperator : public Metasound::TExecutableOperator<FVolumeOperator>
 	{
 	public:
-		static const FNodeClassMetadata& GetNodeInfo();
-		static const FVertexInterface& GetVertexInterface();
-		static TUniquePtr<IOperator> CreateOperator(const FCreateOperatorParams& InParams, FBuildErrorArray& OutErrors);
+		static const Metasound::FNodeClassMetadata& GetNodeInfo();
+		static const Metasound::FVertexInterface& GetVertexInterface();
+		static TUniquePtr<Metasound::IOperator> CreateOperator(const Metasound::FBuildOperatorParams& InParams, Metasound::FBuildResults& OutResults);
 
-		FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude);
+		FVolumeOperator(const Metasound::FOperatorSettings& InSettings, const Metasound::FAudioBufferReadRef& InAudioInput, const Metasound::FFloatReadRef& InAmplitude);
 
-		virtual void BindInputs(FInputVertexInterfaceData& InOutVertexData) override;
-		virtual void BindOutputs(FOutputVertexInterfaceData& InOutVertexData) override;
+		virtual void BindInputs(Metasound::FInputVertexInterfaceData& InOutVertexData) override;
+		virtual void BindOutputs(Metasound::FOutputVertexInterfaceData& InOutVertexData) override;
 
 		void Execute();
 
 	private:
-		FAudioBufferReadRef	 AudioInput;
-		FAudioBufferWriteRef AudioOutput;
+		Metasound::FAudioBufferReadRef	AudioInput;
+		Metasound::FAudioBufferWriteRef AudioOutput;
 
 		DSPProcessing::FVolume VolumeDSPProcessor;
 
-		FFloatReadRef Amplitude;
+		Metasound::FFloatReadRef Amplitude;
 	};
 
 	//------------------------------------------------------------------------------------
 	// FVolumeNode
 	//------------------------------------------------------------------------------------
-	class FVolumeNode : public FNodeFacade
+	class FVolumeNode : public Metasound::FNodeFacade
 	{
 	public:
 		// Constructor used by the Metasound Frontend.
-		FVolumeNode(const FNodeInitData& InitData)
-			: FNodeFacade(InitData.InstanceName, InitData.InstanceID, TFacadeOperatorClass<FVolumeOperator>())
+		FVolumeNode(const Metasound::FNodeInitData& InitData)
+			: Metasound::FNodeFacade(InitData.InstanceName, InitData.InstanceID, Metasound::TFacadeOperatorClass<FVolumeOperator>())
 		{
 
 		}
