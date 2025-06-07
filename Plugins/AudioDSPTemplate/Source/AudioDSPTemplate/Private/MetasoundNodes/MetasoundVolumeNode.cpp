@@ -16,15 +16,12 @@ namespace DSPTemplate
 		METASOUND_PARAM(OutParamNameAudio, "Out", "Audio output.")
 	}
 
-	//------------------------------------------------------------------------------------
-	// FVolumeOperator
-	//------------------------------------------------------------------------------------
 	FVolumeOperator::FVolumeOperator(const FOperatorSettings& InSettings, const FAudioBufferReadRef& InAudioInput, const FFloatReadRef& InAmplitude)
 		: AudioInput(InAudioInput)
 		, AudioOutput(FAudioBufferWriteRef::CreateNew(InSettings))
 		, Amplitude(InAmplitude)
 	{
-		
+		VolumeDSPProcessor.Init();
 	}
 
 	const FNodeClassMetadata& FVolumeOperator::GetNodeInfo()
@@ -88,8 +85,8 @@ namespace DSPTemplate
 	{
 		using namespace VolumeNode;
 
-		FAudioBufferReadRef AudioIn = InParams.InputData.GetOrConstructDataReadReference<FAudioBuffer>(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), InParams.OperatorSettings);
-		FFloatReadRef InAmplitude   = InParams.InputData.GetOrCreateDefaultDataReadReference<float>   (METASOUND_GET_PARAM_NAME(InParamNameAmplitude),  InParams.OperatorSettings);
+		FAudioBufferReadRef AudioIn = InParams.InputData.GetOrCreateDefaultDataReadReference<FAudioBuffer>(METASOUND_GET_PARAM_NAME(InParamNameAudioInput), InParams.OperatorSettings);
+		FFloatReadRef InAmplitude   = InParams.InputData.GetOrCreateDefaultDataReadReference<float>       (METASOUND_GET_PARAM_NAME(InParamNameAmplitude),  InParams.OperatorSettings);
 
 		return MakeUnique<FVolumeOperator>(InParams.OperatorSettings, AudioIn, InAmplitude);
 	}
@@ -103,6 +100,12 @@ namespace DSPTemplate
 
 		VolumeDSPProcessor.SetAmplitude(*Amplitude);
 		VolumeDSPProcessor.ProcessAudioBuffer(InputAudio, OutputAudio, NumSamples);
+	}
+
+	void FVolumeOperator::Reset(const IOperator::FResetParams& InParams)
+	{
+		AudioOutput->Zero();
+		VolumeDSPProcessor.Init();
 	}
 
 	METASOUND_REGISTER_NODE(FVolumeNode)

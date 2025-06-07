@@ -6,22 +6,22 @@
 
 namespace DSPTemplate
 {
-	//------------------------------------------------------------------------------------
-	// FVolumeOperator
-	//------------------------------------------------------------------------------------
 	class FVolumeOperator : public Metasound::TExecutableOperator<FVolumeOperator>
 	{
 	public:
-		static const Metasound::FNodeClassMetadata& GetNodeInfo();
-		static const Metasound::FVertexInterface& GetVertexInterface();
-		static TUniquePtr<Metasound::IOperator> CreateOperator(const Metasound::FBuildOperatorParams& InParams, Metasound::FBuildResults& OutResults);
-
 		FVolumeOperator(const Metasound::FOperatorSettings& InSettings, const Metasound::FAudioBufferReadRef& InAudioInput, const Metasound::FFloatReadRef& InAmplitude);
+
+		static const Metasound::FNodeClassMetadata& GetNodeInfo();
 
 		virtual void BindInputs(Metasound::FInputVertexInterfaceData& InOutVertexData) override;
 		virtual void BindOutputs(Metasound::FOutputVertexInterfaceData& InOutVertexData) override;
 
+		static const Metasound::FVertexInterface& GetVertexInterface();
+		static TUniquePtr<Metasound::IOperator> CreateOperator(const Metasound::FBuildOperatorParams& InParams, Metasound::FBuildResults& OutResults);
+
 		void Execute();
+
+		void Reset(const IOperator::FResetParams& InParams);
 
 	private:
 		Metasound::FAudioBufferReadRef	AudioInput;
@@ -32,17 +32,5 @@ namespace DSPTemplate
 		Metasound::FFloatReadRef Amplitude;
 	};
 
-	//------------------------------------------------------------------------------------
-	// FVolumeNode
-	//------------------------------------------------------------------------------------
-	class FVolumeNode : public Metasound::FNodeFacade
-	{
-	public:
-		// Constructor used by the Metasound Frontend.
-		FVolumeNode(const Metasound::FNodeInitData& InitData)
-			: Metasound::FNodeFacade(InitData.InstanceName, InitData.InstanceID, Metasound::TFacadeOperatorClass<FVolumeOperator>())
-		{
-
-		}
-	};
+	using FVolumeNode = Metasound::TNodeFacade<FVolumeOperator>;
 }
