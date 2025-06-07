@@ -1,6 +1,6 @@
 # Unreal Audio DSP Template (UE5)
 
-#### `[Current main branch version: UE5.4, for other versions check repo branches]`
+#### `[Current main branch version: UE5.6, for other versions check repo branches]`
 
 ![](https://user-images.githubusercontent.com/7047334/156052819-f91ea380-8e61-448b-9492-c898fd772e9c.png)
 
