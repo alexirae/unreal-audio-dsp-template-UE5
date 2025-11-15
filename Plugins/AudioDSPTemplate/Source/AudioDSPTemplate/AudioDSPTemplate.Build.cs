@@ -5,21 +5,24 @@ public class AudioDSPTemplate : ModuleRules
 	public AudioDSPTemplate(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
-		PublicIncludePaths.AddRange(
-			new string[] {
+        bUseUnity = false;
+
+        PublicIncludePaths.AddRange(
+			new string[]
+			{
 				// ... add public include paths required here ...
 
 			}
-			);
+		);
 				
 		
 		PrivateIncludePaths.AddRange(
-			new string[] {
+			new string[]
+			{
 				// ... add private include paths required here ...
 
 			}
-			);
+		);
 			
 		
 		PublicDependencyModuleNames.AddRange(
@@ -30,7 +33,7 @@ public class AudioDSPTemplate : ModuleRules
 				"MetasoundFrontend",
 				"MetasoundGraphCore",
 			}
-			);
+		);
 			
 		
 		PrivateDependencyModuleNames.AddRange(
@@ -41,7 +44,7 @@ public class AudioDSPTemplate : ModuleRules
 				"Engine",
 				"SignalProcessing",
 			}
-			);
+		);
 		
 		
 		DynamicallyLoadedModuleNames.AddRange(
@@ -50,6 +53,9 @@ public class AudioDSPTemplate : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 
 			}
-			);
-	}
+		);
+
+        PrivateDefinitions.Add("METASOUND_PLUGIN=AudioDSPTemplate");
+        PrivateDefinitions.Add("METASOUND_MODULE=AudioDSPTemplate");
+    }
 }

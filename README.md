@@ -1,6 +1,6 @@
 # Unreal Audio DSP Template (UE5)
 
-#### `[Current main branch version: UE5.6, for other versions check repo branches]`
+#### `[Current main branch version: UE5.7, for other versions check repo branches]`
 
 ![](https://user-images.githubusercontent.com/7047334/156052819-f91ea380-8e61-448b-9492-c898fd772e9c.png)
 
@@ -34,7 +34,7 @@ The most relevant parts of the code are located in:
 
 
 ## Note for Metasounds:
-- If you plan to create new Metasound nodes in your own project don't forget to call `FMetasoundFrontendRegistryContainer::Get()->RegisterPendingNodes();` in the `StartupModule()` method, check `AudioDSPTemplate.cpp` for more details.
+- If you plan to create new Metasound nodes in your own plugin/project use the Metasound registration macros in the same way as they are used in `AudioDSPTemplate.cpp`, otherwise your custom MetaSound(s) node(s) will not be available in the Metasound editor.
 
 <br/>
 
