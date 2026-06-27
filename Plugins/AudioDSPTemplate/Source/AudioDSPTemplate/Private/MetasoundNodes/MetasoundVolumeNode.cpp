@@ -30,7 +30,7 @@ namespace DSPTemplate
 		{
 			FNodeClassMetadata Info;
 
-			Info.ClassName         = { TEXT("UE"), TEXT("Volume"), TEXT("Audio") };
+			Info.ClassName         = { TEXT("MyPlugin"), TEXT("Volume"), TEXT("Audio") };
 			Info.MajorVersion      = 1;
 			Info.MinorVersion      = 0;
 			Info.DisplayName       = LOCTEXT("DSPTemplate_VolumeDisplayName", "Volume");
